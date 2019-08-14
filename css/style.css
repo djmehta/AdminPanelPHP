@@ -1,0 +1,259 @@
+body { margin-bottom:0px; margin-left:0px; margin-right:0px; margin-top:0px; background-color:#e7e7e9;
+}
+
+.graycopybold
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #d3d3d3;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.grey21
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #5E767E;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+
+.viewdatacolor
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #566D7E;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.graycopy
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #d3d3d3;
+   font-weight:normal;
+   text-decoration: none;
+}
+
+.graycopyboldlinks
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #d3d3d3;
+   font-weight:bold;
+   text-decoration: underline;
+}
+
+.graydarkboldlinks
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #515251;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.graydarkboldlinks:hover
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #515251;
+   font-weight:bold;
+   text-decoration: underline;
+}
+
+.links
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #444444;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.links:hover
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #444444;
+   font-weight:bold;
+   text-decoration: underline;
+}
+
+.whitebold
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #ffffff;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.whiteboldsubheader
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #515251;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.graycopy2
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #777777;
+   font-weight:normal;
+   text-decoration: none;
+}
+
+.graydarknormal
+{
+	font-size: 11px;
+	font-family: Tahoma, Verdana, arial;
+	color: #515251;
+	font-weight:bold;
+	text-decoration: none;
+	line-height: 20px;
+}
+
+.graydarknormallight
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #777777;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.pagination
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #777777;
+   font-weight:normal;
+   text-decoration: none;
+}
+
+.pagination:hover
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #777777;
+   font-weight:normal;
+   text-decoration: underline;
+}
+
+.paginationselected
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #515251;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.blackcopy
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #000000;
+   font-weight:normal;
+   text-decoration: none;
+}
+
+.graydarkbig
+{
+	font-size: 13px;
+	font-family: Tahoma, Verdana, arial;
+	color: #515251;
+	font-weight:bold;
+	text-decoration: none;
+	line-height: 20px;
+	text-transform:uppercase;
+}
+
+.buttonlinks
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color:#FFFFFF;
+   font-weight:bold;
+   text-decoration:underline;
+   background-color:#00CCFF;
+   padding:2px;
+}
+
+<!--left menu start-->
+#leftmenu {FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:bold; color:#444444;}
+#leftmenu UL {
+	PADDING-RIGHT: 0px; 
+	PADDING-LEFT: 0px; 
+	FONT-SIZE: 11px; 
+	PADDING-BOTTOM: 5px; 
+	MARGIN: 0px 0px 0px 0px; 
+	PADDING-TOP: 5px; 
+	LIST-STYLE-TYPE: none;
+
+}
+#leftmenu li
+{
+padding-left: 15px;
+	background-image:url(../images/bullet.gif);
+	background-position: left 0.5em;
+	background-repeat:no-repeat;
+}
+#leftmenu UL LI {	PADDING-BOTTOM: 2px; BORDER-BOTTOM: #444444 1px dotted}
+#leftmenu UL LI A {	FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:bold; color:#444444;TEXT-DECORATION: none}
+#leftmenu UL LI A.selected {FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:bold; color:#000000;}
+#leftmenu UL LI A:hover {FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:bold; color:#444444; TEXT-DECORATION: underline}
+<!--left menu end-->
+
+<!--list start-->
+#list {FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:normal; color:#444444;}
+#list UL {
+	PADDING-RIGHT: 0px;
+	PADDING-LEFT: 0px;
+	FONT-SIZE: 11px;
+	PADDING-BOTTOM: 5px;
+	MARGIN: 0px 0px 0px 0px;
+	PADDING-TOP: 5px;
+	LIST-STYLE-TYPE: none;
+	FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:normal; color:#444444;
+}
+#list li
+{
+	list-style-position: inside;
+	list-style-type:decimal;
+	}
+#list UL LI {	MARGIN-BOTTOM: 5px; PADDING-BOTTOM: 5px; BORDER-BOTTOM: #444444 1px dotted}
+<!--list end-->
+
+<!--left menu2 start-->
+#leftmenu2 {FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:bold; color:#444444;}
+#leftmenu2 UL {
+	PADDING-RIGHT: 0px; 
+	PADDING-LEFT: 0px; 
+	FONT-SIZE: 11px; 
+	PADDING-BOTTOM: 5px; 
+	MARGIN: 0px 0px 0px 0px; 
+	PADDING-TOP: 5px; 
+	LIST-STYLE-TYPE: none;
+
+}
+#leftmenu2 li
+{
+	list-style-position: inside;
+	list-style-type:decimal;
+	font-family:tahoma, sans-serif;
+	color: #666666;
+	font-size:11px;
+}
+#leftmenu2 UL LI {	MARGIN-BOTTOM: 5px; PADDING-BOTTOM: 5px; BORDER-BOTTOM: #444444 1px dotted}
+#leftmenu2 UL LI A {	FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:bold; color:#444444;TEXT-DECORATION: none}
+#leftmenu2 UL LI A:hover {FONT-FAMILY: tahoma, sans-serif; font-size:11px; font-weight:bold; color:#444444; TEXT-DECORATION: underline}
+<!--left menu2 end-->
+

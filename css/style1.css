@@ -1,0 +1,98 @@
+
+
+.graycopybold
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #d3d3d3;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.graycopy
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #d3d3d3;
+   font-weight:normal;
+   text-decoration: none;
+}
+
+.graycopyboldlinks
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #d3d3d3;
+   font-weight:bold;
+   text-decoration: underline;
+}
+
+.graydarkboldlinks
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #515251;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.graydarkboldlinks:hover
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #515251;
+   font-weight:bold;
+   text-decoration: underline;
+}
+
+
+
+
+
+.whitebold
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #ffffff;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.whiteboldsubheader
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #515251;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+.graycopy2
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #777777;
+   font-weight:normal;
+   text-decoration: none;
+}
+
+.graydarknormal
+{
+	font-size: 11px;
+	font-family: Tahoma, Verdana, arial;
+	color: #515251;
+	font-weight:bold;
+	text-decoration: none;
+	line-height: 20px;
+}
+
+.graydarknormallight
+{
+   font-size: 11px;
+   font-family: Tahoma, Verdana, arial;
+   color: #777777;
+   font-weight:bold;
+   text-decoration: none;
+}
+
+

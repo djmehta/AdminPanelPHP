@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8"/>
+<title>Gradspad</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="" name="description"/>
+<meta content="" name="author"/>
+
+<!--<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>-->
+<link href="<?php echo base_url('assets/plugins/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url('assets/plugins/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url('assets/plugins/uniform/css/uniform.default.css') ?>" rel="stylesheet" type="text/css"/>
+
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/select2/select2.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/select2/select2-metronic.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/clockface/css/clockface.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/bootstrap-datepicker/css/datepicker.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/bootstrap-colorpicker/css/colorpicker.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css') ?>"/>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css') ?>"/>
+<link rel="stylesheet" href="<?php echo base_url('assets/plugins/data-tables/DT_bootstrap.css') ?>"/>
+
+<link href="<?php echo base_url('assets/css/style-metronic.css') ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url('assets/css/style.css') ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url('assets/css/style-responsive.css') ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url('assets/css/plugins.css') ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url('assets/css/themes/light.css') ?>" rel="stylesheet" type="text/css" id="style_color"/>
+<link href="<?php echo base_url('assets/css/pages/login-soft.css') ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo base_url('assets/css/custom.css') ?>" rel="stylesheet" type="text/css"/>
+<script src="<?php echo base_url('assets/plugins/jquery-1.10.2.min.js') ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/plugins/jquery-migrate-1.2.1.min.js') ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js') ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/plugins/bootstrap/js/bootstrap.min.js') ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/js/student_management.js') ?>" type="text/javascript"></script>
+<script src="<?php echo base_url('assets/js/moderate_chat.js') ?>" type="text/javascript"></script>
+
+<link rel="shortcut icon" href="favicon.ico"/>
+<script type="text/javascript">
+var base_url = "<?php echo base_url(); ?>";
+var site_url = "<?php echo site_url(); ?>";
+</script>
+</head>
+<body class="page-header-fixed">
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+	<div class="page-sidebar-wrapper">
+		<div class="page-sidebar">
+			<div class="unilogo">
+				<img src="<?php echo base_url('assets/img/logo/gp-logo.png') ?>" alt="" class="img-responsive"/>
+			</div>
+			<div id="tabs">
+				<ul class="page-sidebar-menu" style="background-color: #999999; margin-top: 20px;">
+					<li class="active">
+						<a href="#tab_6_1" data-toggle="tab">
+							 Student Registration
+						</a>
+					</li>
+					<li>
+						<a href="#tab_6_2" data-toggle="tab" onclick="get_student_management_all_data(1, '');">
+							 Student Management
+						</a>
+					</li>
+					<li class="dropdown">
+						<a href="#tab_6_3" tabindex="-1" data-toggle="tab">
+							News Updates
+						</a>
+					</li>
+					<li>
+						<a href="#tab_6_4" data-toggle="tab">
+							 Content Updates
+						</a>
+					</li>
+					<li>
+						<a href="#tab_6_5" data-toggle="tab" onclick="get_chat_data(1, '');">
+							 Chat Moderation
+						</a>
+					</li>
+					<li>
+						<a href="#tab_6_6" data-toggle="tab">
+							 Contact Tech Support
+						</a>
+					</li>
+					<!--<li>
+						<a href="#tab_6_7" data-toggle="tab">
+							 User Management
+						</a>
+					</li>-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	
+	<!-- BEGIN CONTENT -->
+	<div class="page-content-wrapper">
+	<div class="clearfix pull-right" style="padding-right:2%;font-size:16px;font-weight:900;"><a href="<?=site_url().'logout'?>"> Logout </a></div>
+		<div class="page-content">
+			<!-- BEGIN PAGE CONTENT-->	
+			
+			<div class="row">
+				<div class="col-md-12">
+												

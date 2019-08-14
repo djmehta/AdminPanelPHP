@@ -1,0 +1,49 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Login extends CI_Controller {
+
+    public function index() {
+
+        $this->load->helper('url');
+        $this->load->view('login');
+    }
+
+    public function auth() {
+	echo "vvvvv";exit;
+        $user_id = $this->session->userdata('uID');
+        if (isset($user_id) && $user_id > 0) {
+            redirect('admin', "location");
+        } else {
+            $this->load->model('admin_model');
+
+            $Userdata = $this->admin_model->get_user_login_details($_POST['email'], $_POST['passwd']);
+            $this->auth_details($Userdata, $_POST['email']);
+        }
+    }
+
+    public function auth_details($Userdata, $usremail) {
+        if (isset($Userdata[0])) {
+            if ($Userdata[0]['id'] > 0) {
+                $newdata = array(
+                    'uID' => $Userdata[0]['id'],
+                    'user_email' => $Userdata[0]['user_email'],
+                    'usertype' => 'Administrator'
+                );
+                $this->session->set_userdata($newdata);
+
+                redirect('admin', "location");
+            } else {
+                redirect('login', "location");
+            }
+        } else {
+            redirect('login/', "location");
+        }
+    }
+
+}
+
+/* End of file welcome.php */
+/* Location: ./application/controllers/welcome.php */

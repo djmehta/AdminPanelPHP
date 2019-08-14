@@ -1,0 +1,607 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+require APPPATH . '/libraries/OpenFireUserService.php';
+class Admin extends CI_Controller {
+
+    private $pag_inicial = 0;
+    private $pag_maximo = 10;
+    private $pag_maximocnt = 9;
+
+    function __construct() {
+        parent::__construct();
+        $this->load->model('admin_model');
+    }
+
+    public function chk_sess() {
+        $user_id = $this->session->userdata('uID');
+        if (isset($user_id) && $user_id > 0) {
+            return true;
+        } else {
+            redirect('login/');
+        }
+    }
+    
+    public function email_validation() {
+        $email = $_POST['email'];
+        $result1  =   $this->admin_model->check_useremail($email);
+    }
+	
+   
+
+    public function index() {
+        $this->chk_sess();
+        $this->load->helper('url');
+        $this->load->view('include/header');
+		$top_audio = array();
+		$top_video = array();
+		$top_audio = $this->admin_model->get_top_audio();
+		$top_video = $this->admin_model->get_top_video();
+
+		$data['top_audio'] = $top_audio;
+		$data['top_video'] = $top_video;
+
+        $this->load->view('featured_top', $data);
+        $this->load->view('include/footer');
+    }
+
+
+	 public function search_top_audios() {
+        $this->load->model('admin_model');
+        $srch_res = $this->admin_model->search_top_audios($_POST['q']);
+		
+		echo json_encode($srch_res);
+     
+        //return true;
+    }
+
+	public function update_top_audios() {
+		$this->load->model('admin_model');
+        $srch_res = $this->admin_model->update_top_audios($_POST['songs']);
+		return "success";
+	}
+
+	public function replace_top_audios(){
+		$this->load->model('admin_model');
+		$au_ids = array();
+		$au_ids[] = $_POST['q'];
+        $au_details = $this->admin_model->get_audio_details($au_ids);
+		//$this->load->view('featured_top', $data);
+		echo json_encode($au_details);
+		//return $au_details;
+	}
+
+	public function search_top_videos() {
+        $this->load->model('admin_model');
+        $srch_res = $this->admin_model->search_top_videos($_POST['q']);
+		
+		echo json_encode($srch_res);
+     
+        //return true;
+    }
+
+	public function update_top_videos() {
+		$this->load->model('admin_model');
+        $srch_res = $this->admin_model->update_top_videos($_POST['songs']);
+		return "success";
+	}
+
+	public function replace_top_videos(){
+		$this->load->model('admin_model');
+		$vid_ids = array();
+		$vid_ids[] = $_POST['q'];
+        $vid_details = $this->admin_model->get_video_details($vid_ids);
+		
+		echo json_encode($vid_details);
+		
+	}
+
+    public function logout() {
+        session_destroy();
+        $array_items = array('uID' => '', 'user_email' => '', 'usertype' => '');
+        $this->session->unset_userdata($array_items);
+        redirect('/login/');
+    }
+
+	/* public function add_um_data()
+    {
+        $this->load->model('admin_model');
+        $this->admin_model->set_um_data();
+    }
+
+    public function StudManageList() {
+        $page = $_REQUEST['page'];
+        $srch = $_REQUEST['srch'];
+        if ($page == 0) {
+            echo json_encode(array(""));
+        } else {
+            if (!is_null($page) and is_numeric($page)) {
+                echo json_encode(array(
+                    "rows" => $this->admin_model->get_student_list(($page * $this->pag_maximo - $this->pag_maximo), $this->pag_maximo, $srch),
+                    "totalPages" => ceil($this->admin_model->count_student_list($srch) / $this->pag_maximo)
+                ));
+            } else {
+                echo json_encode(array(""));
+            }
+        }
+    }
+
+    public function StudManageDetails() {
+        $usr_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_student_details($usr_id);
+        $current_acm_listArr = $this->admin_model->CurrentAccedamicDetails($usr_id);
+        //print_r($current_acm_listArr);exit;
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $usr_id
+        ));
+    }
+
+    public function add_stud_data() {
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->Insert_Student_Data($_POST);
+        echo json_encode($adm_listArr);
+    }
+
+    public function add_Class_data_file() {
+        $this->load->model('admin_model');
+        $files_id_Arr = explode(",", $_POST['FilesC']);
+
+        foreach ($files_id_Arr AS $files_id_Val) {
+            $file_listArr = $this->admin_model->Get_Csv_File($files_id_Val);
+            $file_name = $file_listArr[0]['filename'];
+
+            $handle = fopen($file_name, "r");
+
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                $Semester = $_POST['Semester'];
+                $Department = $_POST['Department'];
+                $Class_Code = $_POST['Class_Code'];
+                $Class_Name = $_POST['Class_Name'];
+                $Batch_Number = $_POST['Batch_Number'];
+                $Professor = $_POST['Professor'];
+                $Capacity = $_POST['Capacity'];
+
+                $Post_Arr = array();
+                $Post_Arr['val1'] = $data[$Semester];
+                $Post_Arr['val2'] = $data[$Department];
+                $Post_Arr['val3'] = $data[$Class_Code];
+                $Post_Arr['val4'] = $data[$Class_Name] . ' Batch NO:' . $data[$Batch_Number];
+                $Post_Arr['val6'] = $data[$Professor];
+                $Post_Arr['val7'] = $data[$Capacity];
+                $adm_listArr = $this->admin_model->Insert_class_details($Post_Arr);
+            }
+
+            fclose($handle);
+        }
+        return true;
+    }
+
+    public function add_stud_data_file() {
+        $this->load->model('admin_model');
+        $files_id_Arr = explode(",", $_POST['FilesI']);
+        //print_r($files_id_Arr);exit;
+        foreach ($files_id_Arr AS $files_id_Val) {
+            $file_listArr = $this->admin_model->Get_Csv_File($files_id_Val);
+            //print_r($file_listArr);exit;
+            $file_name = $file_listArr[0]['filename'];
+            $handle = fopen($file_name, "r");
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                print_r($_POST);
+                $fname = $_POST['FName'];
+                $lname = $_POST['LName'];
+                $UMail = $_POST['UMail'];
+                $Pass = $_POST['Pass'];
+                $DName = $_POST['DName'];
+                $JDate = $_POST['JDate'];
+                $Prog = $_POST['Proj'];
+                $ProgStart = $_POST['ProjStart'];
+                $ProgEnd = $_POST['ProjEnd'];
+                $ProgEnd = $_POST['ProjEnd'];
+                $Post_Arr = array();
+                $Post_Arr['a'] = $data[$fname];
+                $Post_Arr['b'] = $data[$lname];
+                $Post_Arr['c'] = $data[$DName];
+                $Post_Arr['d'] = $data[$UMail];
+                $Post_Arr['e'] = $data[$Pass];
+                $JoinDate = $data[$JDate];
+                list($day, $month, $year) = explode("-", $JoinDate);
+                $Post_Arr['f'] = $year . "-" . $month . "-" . $day;
+                $Post_Arr['g'] = $data[$Prog];
+                $Post_Arr['h'] = $data[$ProgStart];
+                $Post_Arr['i'] = $data[$ProgEnd];
+                $adm_listArr = $this->admin_model->Insert_Student_Data($Post_Arr);
+            }
+
+            fclose($handle);
+        }
+        return true;
+    }
+
+    public function add_news_data() {
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->Insert_news_Data($_POST);
+        return true;
+    }
+
+    public function add_event_data() {
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->Insert_event_Data($_POST);
+        return true;
+    }
+
+    public function send_msg() {
+        //$this->load->library('email');
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->send_msg($_POST['a']);
+
+        // $this->email->from("");
+        //  $this->email->to("");
+         // $this->email->subject("");
+        //  $this->email->message($_POST['a']);
+
+         // $this->email->send(); 
+
+        return true;
+    }
+
+    public function EditStudDetails() {
+        $usr_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_student_details_edit($usr_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $usr_id
+        ));
+    }
+
+    public function DeleteStudDetails() {
+        $usr_id = $_POST['Val'];
+        $this->load->model('admin_model');
+
+        $this->admin_model->delete_student_details($usr_id);
+
+        $adm_listArr = $this->admin_model->get_student_details($usr_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $usr_id
+        ));
+    }
+
+    public function SaveStudDetails() {
+        $usr_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $this->admin_model->save_student_details($_POST);
+        $adm_listArr = $this->admin_model->get_student_details($usr_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $usr_id
+        ));
+    }
+
+    public function event_list() {
+        $page = $_REQUEST['page'];
+        $srch = $_REQUEST['srch'];
+        if ($page == 0) {
+            echo json_encode(array(""));
+        } else {
+            if (!is_null($page) and is_numeric($page)) {
+                echo json_encode(array(
+                    "rows" => $this->admin_model->get_event_list(($page * $this->pag_maximo - $this->pag_maximo), $this->pag_maximo, $srch),
+                    "totalPages" => ceil($this->admin_model->count_event_list($srch) / $this->pag_maximo)
+                ));
+            } else {
+                echo json_encode(array(""));
+            }
+        }
+    }
+
+    public function EditEventDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_event_details_edit($eve_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $eve_id
+        ));
+    }
+
+    public function DeleteEventDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+
+        $this->admin_model->delete_Event_details($eve_id);
+        return true;
+    }
+
+    public function SaveEventDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $this->admin_model->save_event_details($_POST);
+        $adm_listArr = $this->admin_model->get_event_details($eve_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $eve_id
+        ));
+    }
+
+    public function EventManageDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_event_details($eve_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $eve_id
+        ));
+    }
+
+    public function class_list() {
+        $page = $_REQUEST['page'];
+        $srch = $_REQUEST['srch'];
+        if ($page == 0) {
+            echo json_encode(array(""));
+        } else {
+            if (!is_null($page) and is_numeric($page)) {
+                echo json_encode(array(
+                    "rows" => $this->admin_model->get_class_list(($page * $this->pag_maximo - $this->pag_maximo), $this->pag_maximo, $srch),
+                    "totalPages" => ceil($this->admin_model->count_class_list($srch) / $this->pag_maximo)
+                ));
+            } else {
+                echo json_encode(array(""));
+            }
+        }
+    }
+
+    public function ClassManageDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_class_details($eve_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $eve_id
+        ));
+    }
+
+    public function DeleteClassDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+
+        $this->admin_model->delete_Class_details($eve_id);
+        return true;
+    }
+
+    public function EditClassDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_class_details_edit($eve_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $eve_id
+        ));
+    }
+
+    public function SaveClassDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $this->admin_model->save_class_details($_POST);
+        $adm_listArr = $this->admin_model->get_class_details($eve_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Val" => $eve_id
+        ));
+    }
+
+    public function conflict_chat_list() {
+        $page = $_REQUEST['page'];
+        $srch = $_REQUEST['srch'];
+
+        $conflchatArr = $this->admin_model->get_conflict_master_chat_list();
+
+        $conflictchatlist = $this->admin_model->get_conflict_chat_list($srch, $conflchatArr);
+
+        $conflictchatlistArr = array();
+        $sv = 0;
+        foreach ($conflictchatlist AS $conflictchatlistVal) {
+            $conflictchatlistArr[$sv]['id'] = $conflictchatlistVal['id'];
+            $conflictchatlistArr[$sv]['firstname'] = $conflictchatlistVal['firstname'];
+            $conflictchatlistArr[$sv]['lastname'] = $conflictchatlistVal['lastname'];
+            if ($srch != '') {
+                $conflictsrchterm = '<font color="red">' . $srch . '</font>';
+                $conflictchatlistArr[$sv]['description'] = str_ireplace($srch, $conflictsrchterm, $conflictchatlistVal['description']);
+            } else {
+                $conflictchatlistArr[$sv]['description'] = $conflictchatlistVal['description'];
+            }
+            $sv++;
+        }
+
+        echo json_encode(array(
+            "conflchat" => $conflictchatlistArr,
+            "conflchattotalPages" => sizeof($conflictchatlistArr)
+        ));
+
+       
+    }
+
+    public function chat_list() {
+        $page = $_REQUEST['page'];
+        $srch = $_REQUEST['srch'];
+
+        $chatlist = $this->admin_model->get_chat_list($srch);
+
+        $chatlistArr = array();
+        $s = 0;
+        foreach ($chatlist AS $chatlistVal) {
+            $chatlistArr[$s]['id'] = $chatlistVal['id'];
+            $chatlistArr[$s]['firstname'] = $chatlistVal['firstname'];
+            $chatlistArr[$s]['lastname'] = $chatlistVal['lastname'];
+            if ($srch != '') {
+                $srchterm = '<font color="red">' . $srch . '</font>';
+                $chatlistArr[$s]['description'] = str_ireplace($srch, $srchterm, $chatlistVal['description']);
+            } else {
+                $chatlistArr[$s]['description'] = $chatlistVal['description'];
+            }
+            $s++;
+        }
+
+        echo json_encode(array(
+            "rows" => $chatlistArr,
+            "totalPages" => sizeof($chatlistArr)
+        ));
+
+       
+    }
+
+    public function DeleteChatDetails() {
+        $eve_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $this->admin_model->delete_Chat_details($eve_id);
+        return true;
+    }
+
+    public function StudManageAcademicDetails() {
+        $usr_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_student_details($usr_id);
+        $current_acm_listArr = $this->admin_model->CurrentAccedamicDetails($usr_id);
+        //print_r($adm_listArr);exit;
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "rows2" => $current_acm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "totalPages2" => sizeof($current_acm_listArr),
+            "Val" => $usr_id
+        ));
+    }
+    
+     public function StudManageAcademic() {
+        $usr_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $current_acm_listArr = $this->admin_model->CurrentAccedamicDetails($usr_id);
+        //print_r($current_acm_listArr);exit;
+        echo json_encode(array(
+            "rows" => $current_acm_listArr,
+            "totalPages" => sizeof($current_acm_listArr),
+            "Val" => $usr_id
+        ));
+    }
+    
+
+    public function StudManageApprightDetails() {
+        $usr_id = $_POST['Val'];
+        $this->load->model('admin_model');
+        $adm_listArr = $this->admin_model->get_student_details($usr_id);
+        $adm_App_listArr = $this->admin_model->get_student_app_details($usr_id);
+        echo json_encode(array(
+            "rows" => $adm_listArr,
+            "totalPages" => sizeof($adm_listArr),
+            "Module_Arr" => $adm_App_listArr,
+            "Val" => $usr_id
+        ));
+    }
+
+    public function SaveAppRights() {
+        $usr_id = $_POST['Val'];
+        $access_value = $_POST['ModRights'];
+        $this->load->model('admin_model');
+        $access_valueArr = explode(",", $access_value);
+        for ($s = 0; $s < sizeof($access_valueArr); $s++) {
+            list($module_id, $action) = explode("_", $access_valueArr[$s]);
+            if ($prev_module_id != $module_id) {
+                $actionArrSt = $action;
+            } else {
+                $actionArrSt .= "," . $action;
+            }
+            $prev_module_id = $module_id;
+            $actionArr[$module_id] = $actionArrSt;
+        }
+
+        $this->admin_model->delete_user_App_Rights($usr_id);
+
+        foreach ($actionArr AS $mod_id => $action) {
+            $val = $this->admin_model->Insert_App_Rights($usr_id, $mod_id, $action);
+        }
+        echo true;
+    }
+
+    public function student_reg_upload() {
+        $this->load->model('admin_model');
+        $uploaddirdot = '.';
+        $uploaddir = '/upload/student/';
+
+        $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+
+        $path = $_FILES['userfile']['name'];
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $validImageTypes = array("csv", "CSV");
+
+        if (!in_array($ext, $validImageTypes)) {
+            echo "error#@#Please upload valid CSV file.";
+        } else {
+            if (file_exists($uploaddirdot . $uploadfile)) {
+                $time = date('YmdHis');
+                $filenm = $time . basename($_FILES['userfile']['name']);
+                $uploadfile = $uploaddir . $filenm;
+            } else {
+                $filenm = basename($_FILES['userfile']['name']);
+            }
+
+            if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploaddirdot . $uploadfile)) {
+                $file = $this->code_url . $uploadfile;
+                $fullfilefoldernm = $this->config->item('base_url') . $uploadfile;
+                $csvFileId = $this->admin_model->Insert_CSV_File($fullfilefoldernm, 'student');
+                echo $filenm . "#@#" . $fullfilefoldernm . "#@#" . $csvFileId;
+            } else {
+                echo "error#@#";
+            }
+        }
+    }
+
+    public function content_class_upload() {
+        $this->load->model('admin_model');
+        $uploaddirdot = '.';
+        $uploaddir = '/upload/class/';
+
+        $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+
+        $path = $_FILES['userfile']['name'];
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        $validImageTypes = array("csv", "CSV");
+
+        if (!in_array($ext, $validImageTypes)) {
+            echo "error#@#Please upload valid CSV file.";
+        } else {
+            if (file_exists($uploaddirdot . $uploadfile)) {
+                $time = date('YmdHis');
+                $filenm = $time . basename($_FILES['userfile']['name']);
+                $uploadfile = $uploaddir . $filenm;
+            } else {
+                $filenm = basename($_FILES['userfile']['name']);
+            }
+
+            if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploaddirdot . $uploadfile)) {
+                $file = $this->code_url . $uploadfile;
+                $fullfilefoldernm = $this->config->item('base_url') . $uploadfile;
+                $csvFileId = $this->admin_model->Insert_CSV_File($fullfilefoldernm, 'class');
+                echo $filenm . "#@#" . $fullfilefoldernm . "#@#" . $csvFileId;
+            } else {
+                echo "error#@#";
+            }
+        }
+    }*/
+
+}
+
+/* End of file welcome.php */
+/* Location: ./application/controllers/welcome.php */
